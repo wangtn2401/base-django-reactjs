@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  backend:
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    volumes:
+      - type: bind
+        source: /Users/quangtu/Documents/Codes/crm-system/backend
+        target: /codebase
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  frontend:
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - type: bind
+        source: /Users/quangtu/Documents/Codes/crm-system/frontend
+        target: /codebase
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: myproject
+      POSTGRES_USER: myprojectuser
+      POSTGRES_PASSWORD: myprojectpassword
+
+volumes:
+  postgres_data:

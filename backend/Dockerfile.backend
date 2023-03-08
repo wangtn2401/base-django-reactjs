@@ -1,0 +1,15 @@
+# Sử dụng base image của python 3.9
+FROM python:3.9
+
+# Thiết lập working directory và copy requirements.txt vào trong container
+WORKDIR /codebase
+COPY requirements.txt .
+
+# Cài đặt các dependencies cho ứng dụng Django
+RUN pip install -r requirements.txt
+
+# Copy các file khác vào trong container
+COPY . /codebase/
+
+# Chạy ứng dụng Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
